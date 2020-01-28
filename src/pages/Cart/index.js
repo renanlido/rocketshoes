@@ -19,7 +19,15 @@ import {
   ProductItemDetails,
 } from './styles';
 
-function Cart({ cart, removeFromCart }) {
+function Cart({ cart, removeFromCart, updateAmount }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <Container>
       <CartItems>
@@ -42,11 +50,11 @@ function Cart({ cart, removeFromCart }) {
             <ItemFooter>
               <div>
                 <span>Quantidade: </span>
-                <button type="button">
+                <button type="button" onClick={() => decrement(product)}>
                   <MdRemoveCircleOutline size={20} />
                 </button>
                 <input type="number" readOnly value={product.amount} />
-                <button type="button">
+                <button type="button" onClick={() => increment(product)}>
                   <MdAddCircleOutline size={20} />
                 </button>
               </div>
@@ -123,5 +131,6 @@ Cart.propTypes = {
       map: propTypes.object,
     })
   ).isRequired,
-  dispatch: propTypes.func.isRequired,
+  removeFromCart: propTypes.func.isRequired,
+  updateAmount: propTypes.func.isRequired,
 };
