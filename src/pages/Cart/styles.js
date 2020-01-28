@@ -55,6 +55,7 @@ export const ItemDetails = styled.div`
     h3 {
       margin-bottom: 5px;
       font-size: 20px;
+      max-width: 400px;
     }
 
     p {
