@@ -1,5 +1,7 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
@@ -15,77 +17,41 @@ import {
   ProductItemDetails,
 } from './styles';
 
-export default function Cart() {
+function Cart({ cart }) {
   return (
     <Container>
       <CartItems>
         <h1>Meu Carrinho</h1>
-        <li>
-          <button type="button">
-            <MdDelete size={20} color="#7159c1" />
-          </button>
-          <ItemDetails>
-            <img
-              src="https://static.netshoes.com.br/produtos/tenis-nike-revolution-5-feminino/26/HZM-1729-026/HZM-1729-026_zoom1.jpg"
-              alt="Tênis"
-            />
-            <div>
-              <h3>Tenis Legal</h3>
-              <p>Ref: #1235R</p>
-              <p>
-                Vendido e entregue por <span>Rocketshoes</span>
-              </p>
-            </div>
-          </ItemDetails>
-          <ItemFooter>
-            <div>
-              <span>Quantidade: </span>
-              <button type="button">
-                <MdRemoveCircleOutline size={20} />
-              </button>
-              <input type="number" readOnly value={1} />
-              <button type="button">
-                <MdAddCircleOutline size={20} />
-              </button>
-            </div>
-
-            <strong>R$ 258,80</strong>
-          </ItemFooter>
-        </li>
-
-        <li>
-          <button type="button">
-            <MdDelete size={20} color="#7159c1" />
-          </button>
-          <ItemDetails>
-            <img
-              src="https://static.netshoes.com.br/produtos/tenis-nike-revolution-5-feminino/26/HZM-1729-026/HZM-1729-026_zoom1.jpg"
-              alt="Tênis"
-            />
-            <div>
-              <h3>Tenis Legal</h3>
-              <p>Ref: #1235R</p>
-              <p>
-                Vendido e entregue por <span>Rocketshoes</span>
-              </p>
-            </div>
-          </ItemDetails>
-          <ItemFooter>
-            <div>
-              <span>Quantidade: </span>
-              <button type="button">
-                <MdRemoveCircleOutline size={20} />
-              </button>
-              <input type="number" readOnly value={1} />
-              <button type="button">
-                <MdAddCircleOutline size={20} />
-              </button>
-            </div>
-
-            <strong>R$ 258,80</strong>
-          </ItemFooter>
-        </li>
-
+        {cart.map(product => (
+          <li key={product.id}>
+            <button type="button">
+              <MdDelete size={20} color="#7159c1" />
+            </button>
+            <ItemDetails>
+              <img src={product.image} alt={product.title} />
+              <div>
+                <h3>{product.title}</h3>
+                <p>Ref: {product.reference}</p>
+                <p>
+                  Vendido e entregue por <span>Rocketshoes</span>
+                </p>
+              </div>
+            </ItemDetails>
+            <ItemFooter>
+              <div>
+                <span>Quantidade: </span>
+                <button type="button">
+                  <MdRemoveCircleOutline size={20} />
+                </button>
+                <input type="number" readOnly value={product.amount} />
+                <button type="button">
+                  <MdAddCircleOutline size={20} />
+                </button>
+              </div>
+              <strong>R$ 258,80</strong>
+            </ItemFooter>
+          </li>
+        ))}
         <ProductItemDetails>
           <span>Simule frete e prazo de entrega</span>
           <div>
@@ -139,3 +105,17 @@ export default function Cart() {
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps)(Cart);
+
+Cart.propTypes = {
+  cart: propTypes.arrayOf(
+    propTypes.shape({
+      map: propTypes.object,
+    })
+  ).isRequired,
+};
