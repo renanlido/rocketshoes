@@ -17,14 +17,19 @@ import {
   ProductItemDetails,
 } from './styles';
 
-function Cart({ cart }) {
+function Cart({ cart, dispatch }) {
   return (
     <Container>
       <CartItems>
         <h1>Meu Carrinho</h1>
         {cart.map(product => (
           <li key={product.id}>
-            <button type="button">
+            <button
+              type="button"
+              onClick={() =>
+                dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+              }
+            >
               <MdDelete size={20} color="#7159c1" />
             </button>
             <ItemDetails>
@@ -118,4 +123,5 @@ Cart.propTypes = {
       map: propTypes.object,
     })
   ).isRequired,
+  dispatch: propTypes.func.isRequired,
 };
