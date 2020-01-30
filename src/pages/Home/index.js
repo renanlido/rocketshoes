@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './styles';
+
 import api from '../../services/api';
+
 import { formatPrice } from '../../util/format';
 
 import * as CartActions from '../../store/modules/cart/actions';
@@ -18,14 +21,21 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const response = await api.get('products');
+    const routes = ['products'];
 
-    const data = response.data.map(product => ({
+    const [products] = await Promise.all(
+      routes.map(async route => {
+        const data = await api.get(route);
+        return data;
+      })
+    );
+
+    const newProduct = products.data.map(product => ({
       ...product,
       priceFormatted: formatPrice(product.price),
     }));
 
-    this.setState({ products: data });
+    this.setState({ products: newProduct });
   }
 
   handleAddProduct = product => {
@@ -36,6 +46,7 @@ class Home extends Component {
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
 
     return (
       <ProductList>
@@ -50,7 +61,8 @@ class Home extends Component {
               onClick={() => this.handleAddProduct(product)}
             >
               <div>
-                <MdAddShoppingCart size={16} color="#fff" />3
+                <MdAddShoppingCart size={16} color="#fff" />
+                {amount[product.id] || 0}
               </div>
 
               <span>ADICIONAR AO CARRINHO</span>
@@ -62,11 +74,15 @@ class Home extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+
+    return amount;
+  }, {}),
+});
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Home);
-
-Home.propTypes = {
-  dispatch: propTypes.func.isRequired,
-};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

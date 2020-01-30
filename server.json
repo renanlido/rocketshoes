@@ -68,5 +68,10 @@
       "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg",
       "reference": "# HCM 129-235-748"
     }
-  ]
+  ],
+  "discount":[{
+    "id":1,
+    "coupon": "rocketshoes",
+    "value": 20
+  }]
 }
