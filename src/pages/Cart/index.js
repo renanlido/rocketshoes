@@ -34,8 +34,6 @@ function Cart({ cart, subtotal, total, removeFromCart, updateAmount }) {
   function totalWithDiscount(sub) {
     const totalizador = sub - 10;
 
-    console.tron.log(totalizador);
-
     return formatPrice(totalizador);
   }
 
