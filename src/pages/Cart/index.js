@@ -22,19 +22,19 @@ import {
   ProductItemDetails,
 } from './styles';
 
-function Cart({ cart, subtotal, total, removeFromCart, updateAmountRequest }) {
+function Cart({
+  cart,
+  subtotal,
+  cartSize,
+  removeFromCart,
+  updateAmountRequest,
+}) {
   function increment(product) {
     updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
     updateAmountRequest(product.id, product.amount - 1);
-  }
-
-  function totalWithDiscount(sub) {
-    const totalizador = sub - 10;
-
-    return formatPrice(totalizador);
   }
 
   return (
@@ -91,7 +91,7 @@ function Cart({ cart, subtotal, total, removeFromCart, updateAmountRequest }) {
 
         <ul>
           <li>
-            <span>Subtotal (3 itens)</span>
+            <span>Subtotal ({cartSize} itens)</span>
             <strong>{subtotal}</strong>
           </li>
           <li>
@@ -108,7 +108,7 @@ function Cart({ cart, subtotal, total, removeFromCart, updateAmountRequest }) {
           <li>
             <span>Valor total</span>
             <div>
-              <strong>{totalWithDiscount(total)}</strong>
+              <strong>R$ 0,00</strong>
               <span>
                 Em até <strong>10x</strong> de <strong>R$ 90,00</strong> sem
                 juros
@@ -135,9 +135,7 @@ const mapStateToProps = state => ({
       return subtotal + product.price * product.amount;
     }, 0)
   ),
-  total: state.cart.reduce((total, product) => {
-    return total + product.price * product.amount;
-  }, 0),
+  cartSize: state.cart.length,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -153,4 +151,6 @@ Cart.propTypes = {
   ).isRequired,
   removeFromCart: propTypes.func.isRequired,
   updateAmountRequest: propTypes.func.isRequired,
+  subtotal: propTypes.string.isRequired,
+  cartSize: propTypes.number.isRequired,
 };
