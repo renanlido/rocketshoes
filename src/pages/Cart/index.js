@@ -22,13 +22,13 @@ import {
   ProductItemDetails,
 } from './styles';
 
-function Cart({ cart, subtotal, total, removeFromCart, updateAmount }) {
+function Cart({ cart, subtotal, total, removeFromCart, updateAmountRequest }) {
   function increment(product) {
-    updateAmount(product.id, product.amount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   }
 
   function totalWithDiscount(sub) {
@@ -152,5 +152,5 @@ Cart.propTypes = {
     })
   ).isRequired,
   removeFromCart: propTypes.func.isRequired,
-  updateAmount: propTypes.func.isRequired,
+  updateAmountRequest: propTypes.func.isRequired,
 };
