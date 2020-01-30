@@ -86,3 +86,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+Home.propTypes = {
+  addToCartRequest: propTypes.func.isRequired,
+  amount: propTypes.shape().isRequired,
+};
