@@ -9,12 +9,16 @@ import {
   MdDelete,
 } from 'react-icons/md';
 
+import { FiShoppingCart } from 'react-icons/fi';
+
 import { formatPrice } from '../../util/format';
 
 import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   Container,
+  EmptyCart,
+  Products,
   CartItems,
   CartSumary,
   ItemDetails,
@@ -39,7 +43,19 @@ function Cart({
 
   return (
     <Container>
-      <CartItems>
+      <EmptyCart empty={cartSize <= 0 ? 1 : 0}>
+        <div>
+          <FiShoppingCart size={100} color="#7159c1" />
+          <h1>Seu carrinho está vazio!</h1>
+          <p>
+            Adicione produtos ao carrinho clicando no botão &quot;Comprar&quot;
+            na página de produto
+          </p>
+          <Products to="/">VOLTAR PARA A PÁGINA INICIAL</Products>
+        </div>
+      </EmptyCart>
+
+      <CartItems empty={cartSize <= 0 ? 1 : 0}>
         <h1>Meu Carrinho</h1>
         {cart.map(product => (
           <li key={product.id}>
@@ -86,7 +102,7 @@ function Cart({
         </ProductItemDetails>
       </CartItems>
 
-      <CartSumary>
+      <CartSumary empty={cartSize <= 0 ? 1 : 0}>
         <h1>Resumo da Compra</h1>
 
         <ul>

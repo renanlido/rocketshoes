@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { darken } from 'polished';
 
 export const Container = styled.div`
@@ -14,7 +15,65 @@ export const Container = styled.div`
   }
 `;
 
+export const EmptyCart = styled.div`
+  display: ${props => (props.empty ? 'block' : 'none')};
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 40px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    h1 {
+      font-size: 18px;
+      margin-top: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #7159c1;
+      padding-bottom: 5px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #666;
+      padding-bottom: 40px;
+    }
+  }
+`;
+
+export const Products = styled(Link)`
+  display: flex;
+  align-items: center;
+
+  height: 50px;
+  margin-right: 5px;
+  border: 1px solid #7159c1;
+  border-radius: 4px;
+  padding: 12px 20px;
+
+  background: none;
+  text-decoration: none;
+
+  color: #7159c1;
+
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.2s;
+
+  &:hover {
+    color: ${darken(0.2, '#7159c1')};
+  }
+`;
+
 export const CartItems = styled.ul`
+  display: ${props => (!props.empty ? 'block' : 'none')};
   height: 100%;
   width: 100%;
 
@@ -161,6 +220,7 @@ export const ProductItemDetails = styled.div`
 `;
 
 export const CartSumary = styled.div`
+  display: ${props => (!props.empty ? 'block' : 'none')};
   background: #fff;
   width: 55%;
   height: 100%;
